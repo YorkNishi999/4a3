@@ -198,7 +198,7 @@ int             mdecrypt(char *virtual_addr);
 int             searchqueue(char* virtual_addr);
 int             enqueue(char* virtual_addr, struct proc* process);
 int             dequeue(char* virtual_addr);
-pde_t*          walkpgdir(pde_t*, const void*, int);
+pde_t*          walkpgdir(pde_t *pgdir, const void *va, int alloc);
 
 
 // number of elements in fixed-size array
