@@ -107,16 +107,16 @@ exec(char *path, char **argv)
   }
   curproc->qhead = -1;
 
+  pte_t* tmp_pgdir = myproc()->pgdir;
   // encrypt pages
   for(int i = 0; i < sz; i += PGSIZE) {
-    pte_t* pte = walkpgdir(myproc()->pgdir, (char*)i, 0);
-    if (*pte & PTE_U) { // if the page is for user
-      if (mencrypt((char*)i, 1) != 0) {
+    pte_t* pte = walkpgdir(tmp_pgdir, (char*)i, 0);
+    if (*pte & PTE_U) { // if the page is for user (uva)
+      if (mencrypt((char*)i, 1) != 0) { // encrypt pages -> fail: return -1
         return -1;
       }
     }
   }
-
   freevm(oldpgdir);
   return 0;
 
